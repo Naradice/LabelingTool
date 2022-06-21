@@ -1,0 +1,103 @@
+﻿<UserControl
+    x:Class="Labeling.ImageLabel.ImageLabelView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Labeling.ImageLabel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="500"
+    d:DesignWidth="700"
+    >
+
+    <Grid x:Name="container">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="2*" MinWidth="150"/>
+        </Grid.ColumnDefinitions>
+        <ContentPresenter Grid.Column="0" Content="{Binding ImageView}"></ContentPresenter>
+        <Grid x:Name="sidebar" Background="AliceBlue" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="15"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="15"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Image" Margin="5,0,0,0"/>
+                <TextBlock Text="Input image" Grid.Row="1" FontSize="10" FontWeight="Bold" Foreground="Gray" VerticalAlignment="Bottom" Margin="10,0,0,0"/>
+                <Border Background="#FFD0E8FF" Width="auto" Grid.Row="2" Margin="30,0,10,0" BorderThickness="0" BorderBrush="#FF94C3FB">
+                    <TextBlock x:Name="InputFolderText" Text="" Width="auto"/>
+                </Border>
+                <TextBlock Text="Output folder" Grid.Row="3" FontSize="10" FontWeight="Bold" Foreground="Gray" VerticalAlignment="Bottom" Margin="10,0,0,0"/>
+                <Border Background="#FFD0E8FF" Width="auto" Grid.Row="4" Margin="30,0,10,0" BorderThickness="0">
+                    <TextBlock x:Name="OutputFolderText" Text="" Width="auto"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition MinHeight="30" Height="auto"></RowDefinition>
+                        <RowDefinition MinHeight="30" Height="15"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Border BorderBrush="Gray" BorderThickness="1" Margin="10,0,10,0" Height="1" VerticalAlignment="Top" />
+                    <TextBlock Text="Classes" Margin="5,0,0,0" Grid.Row="0"/>
+                    <Button x:Name="add_button" Click="add_button_Click" Background="Transparent" Width="auto" Height="auto" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="0">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;" FontSize="10"/>
+                    </Button>
+                    <ComboBox x:Name="classList" ItemsSource="{x:Bind imageLabelViewModel.Classes}" Grid.Row="1" SelectedIndex="{x:Bind imageLabelViewModel.SelectedIndex, Mode=TwoWay}" Loaded="classList_Loaded" VerticalAlignment="Center" HorizontalAlignment="Stretch" DropDownOpened="classList_DropDownOpened" DropDownClosed="classList_DropDownClosed" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Width="{Binding SideBarWidth}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="9*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{Binding ClassColor, Mode=TwoWay}" Visibility="Visible" Margin="0,0,5,0" Grid.Column="0"/>
+                                    <TextBox Text="{Binding ClassName, Mode=TwoWay}" BorderThickness="0" LostFocus="TextBox_LostFocus" Background="Transparent" IsSpellCheckEnabled="True" Grid.Column="1" HorizontalAlignment="Stretch" AcceptsReturn="False" Width="Auto" IsReadOnly="{Binding ElementName=classList, Path=IsDropDownOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <!--
+                    <ToggleButton x:Name="visibility_button" Background="Transparent" Width="auto" Height="auto" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Row="1" Click="visibility_button_Click" IsChecked="{Binding Visibility, Mode=TwoWay}" Foreground="Transparent" >
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7B3;" FontSize="10"/>
+                    </ToggleButton>
+                    -->
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2">
+                <GridView>
+                    <ToggleButton x:Name="labelButton" Click="label_button_Click">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF407;"/>
+                    </ToggleButton>
+                    <ToggleButton x:Name="deleteButton" Click="label_delete_button_Click">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF78A;"/>
+                    </ToggleButton>
+                    <ToggleButton x:Name="updateButton" Click="updateButton_Click">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE895;"/>
+                    </ToggleButton>
+                    <ToggleButton x:Name="detectButton" Click="detectButton_Click">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEDB5;"/>
+                    </ToggleButton>
+                </GridView>
+            </Grid>
+            <Grid Grid.Row="3">
+                <GridView>
+                    <ToggleButton x:Name="binaryButton" Click="binaryButton_Click">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF407;"/>
+                    </ToggleButton>
+                </GridView>
+            </Grid>
+            
+        </Grid>
+    </Grid>
+</UserControl>

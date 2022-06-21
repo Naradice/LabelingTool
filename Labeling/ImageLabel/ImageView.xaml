@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="Labeling.ImageLabel.ImageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Labeling.ImageLabel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="15"></RowDefinition>
+        </Grid.RowDefinitions>
+        <FlipView x:Name="itemFlipView" ItemsSource="{Binding ImageList}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" Grid.Column="0" Loaded="itemFlipView_Loaded" SizeChanged="itemFlipView_SizeChanged" SelectionChanged="itemFlipView_SelectionChanged">
+            <FlipView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Image x:Name="ImageFrame" Width="auto" Height="auto" Stretch="Uniform" Source="{Binding Image}"/>
+                        <ItemsControl ItemsSource="{Binding RectList}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas HorizontalAlignment="Stretch" Width="{Binding ImageWidth}" Height ="{Binding ImageHeight}" Background="Transparent" VerticalAlignment="Stretch"
+                                PointerMoved="Border_PointerMoved"
+                                PointerEntered="Border_PointerEntered"
+                                PointerExited="Border_PointerExited"
+                                KeyDown="Border_KeyDown"
+                                PointerPressed="ImageCanvas_PointerPressed"
+                                PointerReleased="ImageBorder_PointerReleased"
+                                            />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle x:Name="LabelBox" Width="{Binding RectWidth}" Height="{Binding RectHeight}" StrokeDashArray="{Binding DashArray}" Stroke="{Binding Color}" StrokeThickness="{Binding RectThickness}" PointerEntered="LabelBox_PointerEntered" PointerExited="LabelBox_PointerExited" PointerPressed="LabelBox_PointerPressed" Tag="{Binding ID}">
+                                        <Rectangle.RenderTransform>
+                                            <CompositeTransform TranslateX="{Binding RectLeft}" TranslateY="{Binding RectTop}"/>
+                                        </Rectangle.RenderTransform>
+                                    </Rectangle>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </DataTemplate>
+            </FlipView.ItemTemplate>
+        </FlipView>
+        <Border Background="White" Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding X}"></TextBlock>
+                <TextBlock Text="{Binding Y}" Margin="5,0,0,0"></TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

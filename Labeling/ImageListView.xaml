@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="Labeling.ImageListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Labeling"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <UserControl.Resources>
+        <DataTemplate x:Name="ImageGallaryDataTemplate" x:DataType="local:Images">
+            <Image Source="{x:Bind Image}" Stretch="UniformToFill" Width="320" Height="320" AutomationProperties.AccessibilityView="Raw"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <GridView 
+                x:Name="ContentGridView"
+                Background="BlanchedAlmond"
+                SelectionMode="Single"
+                ItemTemplate="{StaticResource ImageGallaryDataTemplate}"
+                SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+            >
+            <!--
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                -->
+        </GridView>
+    </Grid>
+</UserControl>
